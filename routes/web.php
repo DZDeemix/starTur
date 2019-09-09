@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/getResortParseData/{id}', 'SkiResortController@getResortParseData');
+Route::post('/saveResortParseData', 'SkiResortController@saveResortParseData');
+Route::get('/resortParse', 'SkiResortController@resortParse');
 
-Route::get('/', function () {
-    return view('welcome');
-});
