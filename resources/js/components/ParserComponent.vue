@@ -15,125 +15,87 @@
         <div class="border">
         <form class="needs-validation" novalidate>
             <div class="form-row">
-            <div class="col-md-4 mb-3">
-                <label for="title">Название курорта</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.title,
-                       'is-valid': !error_data.title && error_form}"
-                       class="form-control" id="title" v-model ="parsed_data.title"/>
-                <div v-for="error in error_data.title"
-                     :class="{
-                        'invalid-feedback': !!error_data.title,
-                        'valid-feedback': !error_data.title
-                        }">
-                    {{error}}
-                </div>
-            </div>
 
-            <div class="col-md-4 mb-3">
-                <label for="lift_count_bugel">Количество бугельных подъемников</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.lift_count_bugel,
-                       'is-valid': !error_data.lift_count_bugel && error_form}"
-                       class="form-control" id="lift_count_bugel" v-model ="parsed_data.lift_count_bugel"/>
-                <div v-for="error in error_data.lift_count_bugel"
-                     :class="{
-                        'invalid-feedback': !!error_data.lift_count_bugel,
-                        'valid-feedback': !error_data.lift_count_bugel
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.title"
+                    :is_validated="!!error_data.title"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.title"
+                    label="title"
+                    title="Название курорта"
+                ></input-component>
 
-            <div class="col-md-4 mb-3">
-                <label for="lift_count_sit">Количество сидельных подъемников</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.lift_count_sit,
-                       'is-valid': !error_data.lift_count_sit && error_form}"
-                       class="form-control" id="lift_count_sit" v-model ="parsed_data.lift_count_sit"/>
-                <div v-for="error in error_data.lift_count_sit"
-                     :class="{
-                        'invalid-feedback': !!error_data.lift_count_sit,
-                        'valid-feedback': !error_data.lift_count_sit
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.lift_count_bugel"
+                    :is_validated="!!error_data.lift_count_bugel"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.lift_count_bugel"
+                    label="lift_count_bugel"
+                    title="Количество бугельных подъемников"
+                ></input-component>
 
-            <div class="col-md-4 mb-3">
-                <label for="lift_count_ropeway">Количество вагонных подъемников</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.lift_count_ropeway,
-                       'is-valid': !error_data.lift_count_ropeway && error_form}"
-                       class="form-control" id="lift_count_ropeway" v-model ="parsed_data.lift_count_ropeway"/>
-                <div v-for="error in error_data.lift_count_ropeway"
-                     :class="{
-                        'invalid-feedback': !!error_data.lift_count_ropeway,
-                        'valid-feedback': !error_data.lift_count_ropeway
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.lift_count_sit"
+                    :is_validated="!!error_data.lift_count_sit"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.lift_count_sit"
+                    label="lift_count_sit"
+                    title="Количество сидельных подъемников"
+                ></input-component>
 
-            <div class="col-md-4 mb-3">
-                <label for="height_diff">Перепад высот (диапазон)</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.height_diff,
-                       'is-valid': !error_data.height_diff && error_form}"
-                       class="form-control" id="height_diff" v-model ="parsed_data.height_diff"/>
-                <div v-for="error in error_data.height_diff"
-                     :class="{
-                        'invalid-feedback': !!error_data.height_diff,
-                        'valid-feedback': !error_data.height_diff
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.lift_count_sit"
+                    :is_validated="!!error_data.lift_count_sit"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.lift_count_sit"
+                    label="lift_count_sit"
+                    title="Количество вагонных подъемников"
+                ></input-component>
 
-            <div class="col-md-4 mb-3">
-                <label for="track_length">Длина трассы (км)</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.track_length,
-                       'is-valid': !error_data.track_length && error_form}"
-                       class="form-control" id="track_length" v-model ="parsed_data.track_length"/>
-                <div v-for="error in error_data.track_length"
-                     :class="{
-                        'invalid-feedback': !!error_data.track_length,
-                        'valid-feedback': !error_data.track_length
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.lift_count_ropeway"
+                    :is_validated="!!error_data.lift_count_ropeway"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.lift_count_ropeway"
+                    label="lift_count_ropeway"
+                    title="Количество вагонных подъемников"
+                ></input-component>
 
-            <div class="col-md-4 mb-3">
-                <label for="start_season_date">Дата начала сезона</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.start_season_date,
-                       'is-valid': !error_data.start_season_date && error_form}"
-                       class="form-control" id="start_season_date" v-model ="parsed_data.start_season_date"/>
-                <div v-for="error in error_data.start_season_date"
-                     :class="{
-                        'invalid-feedback': !!error_data.start_season_date,
-                        'valid-feedback': !error_data.start_season_date
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.height_diff"
+                    :is_validated="!!error_data.height_diff"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.height_diff"
+                    label="height_diff"
+                    title="Перепад высот (диапазон)"
+                ></input-component>
 
-            <div class="col-md-4 mb-3">
-                <label for="end_season_date">Дата конца сезона</label>
-                <input type="text"
-                       :class="{'is-invalid': !!error_data.end_season_date,
-                       'is-valid': !error_data.end_season_date && error_form}"
-                       class="form-control" id="end_season_date" v-model ="parsed_data.end_season_date"/>
-                <div v-for="error in error_data.end_season_date"
-                     :class="{
-                        'invalid-feedback': !!error_data.end_season_date,
-                        'valid-feedback': !error_data.end_season_date
-                        }">
-                    {{error}}
-                </div>
-            </div>
+                <input-component
+                    v-model="parsed_data.track_length"
+                    :is_validated="!!error_data.track_length"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.track_length"
+                    label="track_length"
+                    title="Длина трассы (км)"
+                ></input-component>
+
+                <input-component
+                    v-model="parsed_data.start_season_date"
+                    :is_validated="!!error_data.start_season_date"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.start_season_date"
+                    label="start_season_date"
+                    title="Дата начала сезона"
+                ></input-component>
+
+                <input-component
+                    v-model="parsed_data.end_season_date"
+                    :is_validated="!!error_data.end_season_date"
+                    :is_validated_form="error_form"
+                    :error_data="error_data.end_season_date"
+                    label="start_season_date"
+                    title="Дата конца сезона"
+                ></input-component>
 
         </div>
         </form>
