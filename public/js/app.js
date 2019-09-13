@@ -1829,10 +1829,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ParserComponent.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ParserComponent.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InputComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InputComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1857,97 +1857,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "InputComponent",
+  inheritAttrs: false,
+  props: {
+    is_validated: {
+      type: Array,
+      "default": []
+    },
+    error_data: {
+      type: Array,
+      "default": []
+    },
+    is_validated_form: {
+      type: Boolean,
+      "default": false
+    },
+    value: {
+      type: String
+    },
+    label: {
+      type: String
+    },
+    title: {
+      type: String
+    }
+  },
+  data: function data() {
+    return {};
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ParserComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ParserComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 //
 //
 //
@@ -2025,11 +1976,6 @@ __webpack_require__.r(__webpack_exports__);
       resorts: this.resortAll
     };
   },
-  computed: {
-    values: function values() {
-      return this.resortAll;
-    }
-  },
   methods: {
     parse: function parse(e) {
       var _this = this;
@@ -2044,6 +1990,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       e.preventDefault();
+      console.log(this.parsed_data);
 
       if (this.resort_item.length === 0) {
         axios.post("saveResortParseData/", this.parsed_data).then(function (response) {
@@ -2052,9 +1999,19 @@ __webpack_require__.r(__webpack_exports__);
           _this2.error_data = [];
         })["catch"](function (error) {
           if (error.response) {
+            var errors = error.response.data.errors;
+            var arr = _this2.parsed_data;
+            arr.forEach(function (item, i, arr) {
+              if (item.label in errors) {
+                item.error = errors[item.label];
+              } else {
+                item.error = [];
+              }
+            });
             _this2.error_form = true;
-            _this2.error_data = error.response.data.errors;
-            console.log(error.response.data.errors);
+            _this2.parsed_data = arr;
+            console.log(_this2.parsed_data);
+            console.log(errors);
           }
         });
       } else {
@@ -38007,6 +37964,78 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "col-md-4 mb-3" },
+    [
+      _c("label", { attrs: { for: _vm.label } }, [_vm._v(_vm._s(_vm.title))]),
+      _vm._v(" "),
+      _c(
+        "input",
+        _vm._b(
+          {
+            staticClass: "form-control",
+            class: {
+              "is-invalid":
+                _vm.is_validated.length > 0 && _vm.is_validated_form,
+              "is-valid": _vm.is_validated.length == 0 && _vm.is_validated_form
+            },
+            attrs: { type: "text", id: _vm.label },
+            domProps: { value: _vm.value },
+            on: {
+              input: function($event) {
+                return _vm.$emit("input", $event.target.value)
+              }
+            }
+          },
+          "input",
+          _vm.$attrs,
+          false
+        )
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.error_data, function(error) {
+        return _vm.is_validated_form
+          ? _c(
+              "div",
+              {
+                class: {
+                  "invalid-feedback":
+                    _vm.is_validated.length > 0 && _vm.is_validated_form,
+                  "valid-feedback":
+                    _vm.is_validated.length == 0 && _vm.is_validated_form
+                }
+              },
+              [_vm._v("\n        " + _vm._s(error) + "\n    ")]
+            )
+          : _vm._e()
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ParserComponent.vue?vue&type=template&id=031b4103&scoped=true&":
 /*!******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ParserComponent.vue?vue&type=template&id=031b4103&scoped=true& ***!
@@ -38072,471 +38101,30 @@ var render = function() {
         "form",
         { staticClass: "needs-validation", attrs: { novalidate: "" } },
         [
-          _c("div", { staticClass: "form-row" }, [
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "title" } }, [
-                  _vm._v("Название курорта")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.title,
-                      expression: "parsed_data.title"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.title,
-                    "is-valid": !_vm.error_data.title && _vm.error_form
+          _c(
+            "div",
+            { staticClass: "form-row" },
+            _vm._l(_vm.parsed_data, function(item, index) {
+              return _c("input-component", {
+                key: index,
+                attrs: {
+                  is_validated: item.error,
+                  is_validated_form: _vm.error_form,
+                  error_data: item.error,
+                  label: item.label,
+                  title: item.title
+                },
+                model: {
+                  value: item.value,
+                  callback: function($$v) {
+                    _vm.$set(item, "value", $$v)
                   },
-                  attrs: { type: "text", id: "title" },
-                  domProps: { value: _vm.parsed_data.title },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.parsed_data, "title", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.title, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.title,
-                        "valid-feedback": !_vm.error_data.title
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "lift_count_bugel" } }, [
-                  _vm._v("Количество бугельных подъемников")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.lift_count_bugel,
-                      expression: "parsed_data.lift_count_bugel"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.lift_count_bugel,
-                    "is-valid":
-                      !_vm.error_data.lift_count_bugel && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "lift_count_bugel" },
-                  domProps: { value: _vm.parsed_data.lift_count_bugel },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "lift_count_bugel",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.lift_count_bugel, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.lift_count_bugel,
-                        "valid-feedback": !_vm.error_data.lift_count_bugel
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "lift_count_sit" } }, [
-                  _vm._v("Количество сидельных подъемников")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.lift_count_sit,
-                      expression: "parsed_data.lift_count_sit"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.lift_count_sit,
-                    "is-valid": !_vm.error_data.lift_count_sit && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "lift_count_sit" },
-                  domProps: { value: _vm.parsed_data.lift_count_sit },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "lift_count_sit",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.lift_count_sit, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.lift_count_sit,
-                        "valid-feedback": !_vm.error_data.lift_count_sit
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "lift_count_ropeway" } }, [
-                  _vm._v("Количество вагонных подъемников")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.lift_count_ropeway,
-                      expression: "parsed_data.lift_count_ropeway"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.lift_count_ropeway,
-                    "is-valid":
-                      !_vm.error_data.lift_count_ropeway && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "lift_count_ropeway" },
-                  domProps: { value: _vm.parsed_data.lift_count_ropeway },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "lift_count_ropeway",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.lift_count_ropeway, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.lift_count_ropeway,
-                        "valid-feedback": !_vm.error_data.lift_count_ropeway
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "height_diff" } }, [
-                  _vm._v("Перепад высот (диапазон)")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.height_diff,
-                      expression: "parsed_data.height_diff"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.height_diff,
-                    "is-valid": !_vm.error_data.height_diff && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "height_diff" },
-                  domProps: { value: _vm.parsed_data.height_diff },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "height_diff",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.height_diff, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.height_diff,
-                        "valid-feedback": !_vm.error_data.height_diff
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "track_length" } }, [
-                  _vm._v("Длина трассы (км)")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.track_length,
-                      expression: "parsed_data.track_length"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.track_length,
-                    "is-valid": !_vm.error_data.track_length && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "track_length" },
-                  domProps: { value: _vm.parsed_data.track_length },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "track_length",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.track_length, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.track_length,
-                        "valid-feedback": !_vm.error_data.track_length
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "start_season_date" } }, [
-                  _vm._v("Дата начала сезона")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.start_season_date,
-                      expression: "parsed_data.start_season_date"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.start_season_date,
-                    "is-valid":
-                      !_vm.error_data.start_season_date && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "start_season_date" },
-                  domProps: { value: _vm.parsed_data.start_season_date },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "start_season_date",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.start_season_date, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.start_season_date,
-                        "valid-feedback": !_vm.error_data.start_season_date
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("label", { attrs: { for: "end_season_date" } }, [
-                  _vm._v("Дата конца сезона")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.parsed_data.end_season_date,
-                      expression: "parsed_data.end_season_date"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: {
-                    "is-invalid": !!_vm.error_data.end_season_date,
-                    "is-valid":
-                      !_vm.error_data.end_season_date && _vm.error_form
-                  },
-                  attrs: { type: "text", id: "end_season_date" },
-                  domProps: { value: _vm.parsed_data.end_season_date },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.parsed_data,
-                        "end_season_date",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.error_data.end_season_date, function(error) {
-                  return _c(
-                    "div",
-                    {
-                      class: {
-                        "invalid-feedback": !!_vm.error_data.end_season_date,
-                        "valid-feedback": !_vm.error_data.end_season_date
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " + _vm._s(error) + "\n            "
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          ])
+                  expression: "item.value"
+                }
+              })
+            }),
+            1
+          )
         ]
       ),
       _vm._v(" "),
@@ -50779,6 +50367,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('parser-component', __webpack_require__(/*! ./components/ParserComponent.vue */ "./resources/js/components/ParserComponent.vue")["default"]);
+Vue.component('input-component', __webpack_require__(/*! ./components/InputComponent.vue */ "./resources/js/components/InputComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50846,6 +50435,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/InputComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/InputComponent.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _InputComponent_vue_vue_type_template_id_1e6111fe_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true& */ "./resources/js/components/InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true&");
+/* harmony import */ var _InputComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/InputComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _InputComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _InputComponent_vue_vue_type_template_id_1e6111fe_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _InputComponent_vue_vue_type_template_id_1e6111fe_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "1e6111fe",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/InputComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/InputComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/InputComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InputComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./InputComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InputComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InputComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputComponent_vue_vue_type_template_id_1e6111fe_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InputComponent.vue?vue&type=template&id=1e6111fe&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputComponent_vue_vue_type_template_id_1e6111fe_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputComponent_vue_vue_type_template_id_1e6111fe_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
