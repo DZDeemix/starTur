@@ -17,8 +17,8 @@ class SkiResortController extends Controller
         return view('resort', ['resort_all' => $resort_all]);
     }
     
-    public function getResortParseData($id) {
-        
+    public function getResortParseData(Request $request, $id) {
+        $name = $request->query('id');
         $html = file_get_contents('https://www.ski.ru/az/resort/'.$id);
         
         phpQuery::newDocument($html);
@@ -41,14 +41,54 @@ class SkiResortController extends Controller
         $end_season_date = $season_date[1];
         
         $data = [
-            'title' => !empty($title) ? $title : '',
-            'lift_count_bugel' => !empty($lift_count_bugel) ? $lift_count_bugel : '',
-            'lift_count_sit' => !empty($lift_count_sit) ? $lift_count_sit : '',
-            'lift_count_ropeway' => !empty($lift_count_ropeway) ? $lift_count_ropeway : '',
-            'height_diff' => !empty($height_diff) ? $height_diff : '',
-            'track_length' => !empty($track_length) ? $track_length : '',
-            'start_season_date' => !empty($start_season_date) ? $start_season_date : '',
-            'end_season_date' => !empty($end_season_date) ? $end_season_date: '',
+            [
+                'title' => 'Название курорта',
+                'label' => 'title',
+                'value' => !empty($title) ? $title : '',
+                'error' => []
+            ],
+            [
+                'title' => 'Количество бугельных подъемников',
+                'label' => 'lift_count_bugel',
+                'value' =>  !empty($lift_count_bugel) ? $lift_count_bugel : '',
+                'error' => []
+            ],
+            [
+                'title' => 'Количество сидельных подъемников',
+                'label' => 'lift_count_sit',
+                'value' =>  !empty($lift_count_sit) ? $lift_count_sit : '',
+                'error' => []
+            ],
+            [
+                'title' => 'Количество вагонных подъемников',
+                'label' => 'lift_count_ropeway',
+                'value' =>  !empty($lift_count_ropeway) ? $lift_count_ropeway : '',
+                'error' => []
+            ],
+            [
+                'title' => 'Перепад высот (диапазон)',
+                'label' => 'height_diff',
+                'value' =>  !empty($height_diff) ? $height_diff : '',
+                'error' => [],
+            ],
+            [
+                'title' => 'Длина трассы (км)',
+                'label' => 'track_length',
+                'value' =>  !empty($track_length) ? $track_length : '',
+                'error' => [],
+            ],
+            [
+                'title' => 'Дата начала сезона',
+                'label' => 'start_season_date',
+                'value' => !empty($start_season_date) ? $start_season_date : '',
+                'error' => [],
+            ],
+            [
+                'title' => 'Дата конца сезона',
+                'label' => 'end_season_date',
+                'value' =>  !empty($end_season_date) ? $end_season_date: '',
+                'error' => [],
+            ],
         ];
         phpQuery::unloadDocuments();
         

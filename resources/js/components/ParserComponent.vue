@@ -16,88 +16,16 @@
         <form class="needs-validation" novalidate>
             <div class="form-row">
 
-                <input-component
-                    v-model="parsed_data.title"
-                    :is_validated="!!error_data.title"
+                <input-component  v-for="(item, index) in parsed_data" :key="index"
+                    v-model="item.value"
+                    :is_validated="item.error"
                     :is_validated_form="error_form"
-                    :error_data="error_data.title"
-                    label="title"
-                    title="Название курорта"
-                ></input-component>
+                    :error_data="item.error"
+                    :label="item.label"
+                    :title="item.title">
+                </input-component>
 
-                <input-component
-                    v-model="parsed_data.lift_count_bugel"
-                    :is_validated="!!error_data.lift_count_bugel"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.lift_count_bugel"
-                    label="lift_count_bugel"
-                    title="Количество бугельных подъемников"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.lift_count_sit"
-                    :is_validated="!!error_data.lift_count_sit"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.lift_count_sit"
-                    label="lift_count_sit"
-                    title="Количество сидельных подъемников"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.lift_count_sit"
-                    :is_validated="!!error_data.lift_count_sit"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.lift_count_sit"
-                    label="lift_count_sit"
-                    title="Количество вагонных подъемников"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.lift_count_ropeway"
-                    :is_validated="!!error_data.lift_count_ropeway"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.lift_count_ropeway"
-                    label="lift_count_ropeway"
-                    title="Количество вагонных подъемников"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.height_diff"
-                    :is_validated="!!error_data.height_diff"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.height_diff"
-                    label="height_diff"
-                    title="Перепад высот (диапазон)"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.track_length"
-                    :is_validated="!!error_data.track_length"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.track_length"
-                    label="track_length"
-                    title="Длина трассы (км)"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.start_season_date"
-                    :is_validated="!!error_data.start_season_date"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.start_season_date"
-                    label="start_season_date"
-                    title="Дата начала сезона"
-                ></input-component>
-
-                <input-component
-                    v-model="parsed_data.end_season_date"
-                    :is_validated="!!error_data.end_season_date"
-                    :is_validated_form="error_form"
-                    :error_data="error_data.end_season_date"
-                    label="start_season_date"
-                    title="Дата конца сезона"
-                ></input-component>
-
-        </div>
+            </div>
         </form>
         <button class="btn btn-primary" @click="saveparsed">Cохранить</button>
         </div>
@@ -138,6 +66,7 @@
 <script>
     export default {
         props:['resortAll'],
+
         data () {
             return {
                 parsed_data: [],
@@ -146,12 +75,6 @@
                 error_form: false,
                 resort_item: [],
                 resorts: this.resortAll
-            }
-        },
-
-        computed: {
-            values () {
-                return this.resortAll
             }
         },
 
@@ -165,7 +88,7 @@
             },
             saveparsed (e) {
                 e.preventDefault();
-                
+                console.log(this.parsed_data);
                 if (this.resort_item.length === 0) {
                     axios.post(`saveResortParseData/`,
                         this.parsed_data
@@ -179,9 +102,23 @@
                         )
                         .catch((error) => {
                             if (error.response) {
+
+                                var errors = error.response.data.errors;
+
+                                var arr = this.parsed_data;
+                                arr.forEach(function(item, i, arr) {
+
+                                    if (item.label in errors) {
+                                        item.error = errors[item.label];
+                                    } else {
+                                        item.error = [];
+                                    }
+                                });
+
                                 this.error_form = true;
-                                this.error_data = error.response.data.errors;
-                                console.log(error.response.data.errors);
+                                this.parsed_data = arr;
+                                console.log(this.parsed_data);
+                                console.log(errors);
                             }
                         })
                 } else {

@@ -11,6 +11,6 @@
 |
 */
 Route::get('/getResortParseData/{id}', 'SkiResortController@getResortParseData');
-Route::post('/saveResortParseData', 'SkiResortController@saveResortParseData');
+Route::post('/saveResortParseData', 'SkiResortController@saveResortParseData')->middleware('SkiReformatData');
 Route::get('/resortParse', 'SkiResortController@resortParse');
 
