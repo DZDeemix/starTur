@@ -1,62 +1,62 @@
 <template>
     <div>
+        <div aria-live="polite" aria-atomic="true"
+             class="d-flex justify-content-center align-items-center customToast">
+            <div class="toast fade hide" role="alert" aria-live="assertive"
+                 aria-atomic="true" id="socket" data-delay="2000">
+                <div class="toast-header">
+                    <strong class="mr-auto">Parser</strong>
+                    <small class="text-muted">message</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Письмо отправлено
+                </div>
+            </div>
+        </div>
+
         <div class="border">
             <div class="form-row">
                 <div class="col-md-4 mb-3">
                     <label for="id">id</label>
-                    <input type="text" class="form-control" id="id" v-model ="id">
-                    <div class="valid-feedback" >
-                        Looks good!
-                    </div>
+                    <input type="text" class="form-control" id="id" v-model="id">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="email">email</label>
+                    <input type="text" class="form-control" id="email" v-model="email">
                 </div>
             </div>
             <button class="btn btn-primary" @click="parse" type="submit">Парсинг</button>
         </div>
         <div class="border">
-        <form class="needs-validation" novalidate>
-            <div class="form-row">
+            <form class="needs-validation" novalidate>
+                <div class="form-row">
 
-                <input-component  v-for="(item, index) in parsed_data" :key="index"
-                    v-model="item.value"
-                    :is_validated="item.error"
-                    :is_validated_form="error_form"
-                    :error_data="item.error"
-                    :label="item.label"
-                    :title="item.title">
-                </input-component>
+                    <input-component v-for="(item, index) in parsed_data" :key="index"
+                                     v-model="item.value"
+                                     :is_validated="item.error"
+                                     :is_validated_form="error_form"
+                                     :error_data="item.error"
+                                     :label="item.label"
+                                     :title="item.title">
+                    </input-component>
 
-            </div>
-        </form>
-        <button class="btn btn-primary" @click="saveparsed">Cохранить</button>
+                </div>
+            </form>
+            <button class="btn btn-primary" @click="saveparsed">Cохранить</button>
         </div>
 
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">id</th>
-                <th scope="col">title</th>
-                <th scope="col">lift_count_bugel</th>
-                <th scope="col">lift_count_sit</th>
-                <th scope="col">lift_count_ropeway</th>
-                <th scope="col">height_diff</th>
-                <th scope="col">track_length</th>
-                <th scope="col">start_season_date</th>
-                <th scope="col">end_season_date</th>
-                <th scope="col">slug</th>
+                <th v-for="(item, name, index) in resorts[resorts.length - 1]" :key="index" scope="col">{{name}}</th>
             </tr>
             </thead>
             <tbody class="table-striped">
-            <tr v-for="resort in resorts" :key="resort.id" >
-                <th scope="row">{{resort.id}}</th>
-                <td>{{resort.title}}</td>
-                <td>{{resort.lift_count_bugel}}</td>
-                <td>{{resort.lift_count_sit}}</td>
-                <td>{{resort.lift_count_ropeway}}</td>
-                <td>{{resort.height_diff}}</td>
-                <td>{{resort.track_length}}</td>
-                <td>{{resort.start_season_date}}</td>
-                <td>{{resort.end_season_date}}</td>
-                <td>{{resort.slug}}</td>
+            <tr v-for="resort in resorts" :key="resort.id">
+                <td v-for="(item, index) in resort" :key="index">{{item}}</td>
             </tr>
             </tbody>
         </table>
@@ -65,12 +65,13 @@
 
 <script>
     export default {
-        props:['resortAll'],
+        props: ['resortAll'],
 
-        data () {
+        data() {
             return {
                 parsed_data: [],
-                id: 0,
+                id: '',
+                email: '',
                 error_data: [],
                 error_form: false,
                 resort_item: [],
@@ -78,15 +79,23 @@
             }
         },
 
+        mounted() {
+            $('#socket').toast('hide');
+            Echo.channel('laravel_database_send-email')
+                .listen('SkiResortEvent', (e) => {
+                    $('#socket').toast('show');
+                    console.log(e);
+                });
+        },
         methods: {
-            parse (e) {
+            parse(e) {
                 e.preventDefault();
-                axios.get(`getResortParseData/${this.id}`).then((response) => {
+                axios.get(`getResortParseData/${this.id}/${this.email}`).then((response) => {
                     this.parsed_data = response.data;
                     this.error_form = false;
                 })
             },
-            saveparsed (e) {
+            saveparsed(e) {
                 e.preventDefault();
                 console.log(this.parsed_data);
                 if (this.resort_item.length === 0) {
@@ -106,7 +115,7 @@
                                 var errors = error.response.data.errors;
 
                                 var arr = this.parsed_data;
-                                arr.forEach(function(item, i, arr) {
+                                arr.forEach(function (item, i, arr) {
 
                                     if (item.label in errors) {
                                         item.error = errors[item.label];
@@ -126,9 +135,9 @@
                     let id = this.resort_item.id;
                     let arr = this.resorts;
                     let result;
-                    arr.forEach(function(item, i, arr) {
+                    arr.forEach(function (item, i, arr) {
                         if (item.id == id) {
-                           result = i;
+                            result = i;
                         }
                     });
 
@@ -150,5 +159,12 @@
 <style scoped>
     .border {
         margin: 40px;
+    }
+
+    .customToast {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-height: 200px;
     }
 </style>

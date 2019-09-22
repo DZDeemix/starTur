@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SkiResortEvent;
 use App\Http\Requests\StoreSkiResort;
+use App\Jobs\SendMessage;
+use App\Mail\SkiResortMail;
+use App\Notifications\ParsedSkiResort;
 use App\SkiResort;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use phpQuery;
 use Illuminate\Support\Str;
 
@@ -17,7 +23,7 @@ class SkiResortController extends Controller
         return view('resort', ['resort_all' => $resort_all]);
     }
     
-    public function getResortParseData(Request $request, $id) {
+    public function getResortParseData(Request $request, $id, $email = null) {
         $name = $request->query('id');
         $html = file_get_contents('https://www.ski.ru/az/resort/'.$id);
         
@@ -86,12 +92,15 @@ class SkiResortController extends Controller
             [
                 'title' => 'Дата конца сезона',
                 'label' => 'end_season_date',
-                'value' =>  !empty($end_season_date) ? $end_season_date: '',
+                'value' =>  !empty($end_season_date) ? $end_season_date : '',
                 'error' => [],
             ],
         ];
         phpQuery::unloadDocuments();
         
+        if($email) {
+            SendMessage::dispatch($data, $email);
+        }
         return response()->json($data, 200);
     }
     

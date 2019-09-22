@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/getResortParseData/{id}', 'SkiResortController@getResortParseData');
+Route::get('/getResortParseData/{id}/{email?}', 'SkiResortController@getResortParseData');
 Route::post('/saveResortParseData', 'SkiResortController@saveResortParseData')->middleware('SkiReformatData');
 Route::get('/resortParse', 'SkiResortController@resortParse');
 
